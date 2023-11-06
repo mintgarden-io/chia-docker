@@ -159,6 +159,11 @@ else
   chia keys add -f "${keys}" -l ""
 fi
 
+# Add public key to config
+if [[ ${testnet} == 'true' ]]; then
+  yq -i '.wallet.public_key = env(public_key)' "$CHIA_ROOT/config/config.yaml"
+fi
+
 for p in ${plots_dir//:/ }; do
   mkdir -p "${p}"
   if [[ ! $(ls -A "$p") ]]; then
