@@ -160,7 +160,7 @@ else
 fi
 
 # Add public key to config
-if [[ ${testnet} == 'true' ]]; then
+if [[ -n "${public_key}" ]]; then
   yq -i '.wallet.public_key = env(public_key)' "$CHIA_ROOT/config/config.yaml"
 fi
 
