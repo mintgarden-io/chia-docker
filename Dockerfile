@@ -6,17 +6,17 @@ ARG COMMIT=""
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
-        lsb-release sudo git
+    lsb-release sudo git
 
 WORKDIR /chia-blockchain
 
 RUN echo "cloning ${BRANCH}" && \
     if [ -z "$COMMIT" ]; then \
-        DEPTH_FLAG="--depth 1"; \
+    DEPTH_FLAG="--depth 1"; \
     else \
-        DEPTH_FLAG=""; \
+    DEPTH_FLAG=""; \
     fi && \
-    git clone ${DEPTH_FLAG} --branch ${BRANCH} --recurse-submodules=mozilla-ca https://github.com/Chia-Network/chia-blockchain.git . && \
+    git clone ${DEPTH_FLAG} --branch ${BRANCH} --recurse-submodules=mozilla-ca https://github.com/mintgarden-io/chia-blockchain.git . && \
     # If COMMIT is set, check out that commit, otherwise just continue
     ( [ ! -z "$COMMIT" ] && git fetch origin $COMMIT && git checkout $COMMIT ) || true && \
     echo "running build-script" && \
@@ -75,7 +75,7 @@ RUN chmod +x /usr/local/bin/docker-start.sh && \
     chmod +x /usr/local/bin/docker-healthcheck.sh
 
 HEALTHCHECK --interval=1m --timeout=10s --start-period=20m \
-  CMD /bin/bash /usr/local/bin/docker-healthcheck.sh || exit 1
+    CMD /bin/bash /usr/local/bin/docker-healthcheck.sh || exit 1
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["docker-start.sh"]
